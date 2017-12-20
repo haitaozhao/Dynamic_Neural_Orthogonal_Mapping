@@ -44,20 +44,6 @@ plot(XT_d(1,201:end),XT_d(2,201:end),'ro');
 
 B = EigVec(:,1:2);
 
-%% KPCA with Gaussian Kernel and Kernel parameter is 4
-
-
-options.KernelType = 'Gaussian';
-options.t = 4;
-options.ReducedDim = 7;
-[eigvector,eigvalue] = KPCA(X',options);
-Ktest = constructKernel(XT',X',options);
-Y = Ktest*eigvector;
-Y = Y';
-figure
-plot(Y(1,1:200),Y(2,1:200),'o');
-hold on
-plot(Y(1,201:end),Y(2,201:end),'ro');
 
 
 %% DNOM
@@ -84,3 +70,19 @@ figure;
 plot(XT_dnom(1,1:200),XT_dnom(2,1:200),'o');
 hold on
 plot(XT_dnom(1,201:end),XT_dnom(2,201:end),'ro');
+
+
+%% KPCA with Gaussian Kernel and Kernel parameter is 4
+
+
+options.KernelType = 'Gaussian';
+options.t = 4;
+options.ReducedDim = 7;
+[eigvector,eigvalue] = KPCA(X',options);
+Ktest = constructKernel(XT',X',options);
+Y = Ktest*eigvector;
+Y = Y';
+figure
+plot(Y(1,1:200),Y(2,1:200),'o');
+hold on
+plot(Y(1,201:end),Y(2,201:end),'ro');
