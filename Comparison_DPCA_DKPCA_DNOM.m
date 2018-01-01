@@ -3,6 +3,7 @@ clc
 
 %% generate data
 % normal data
+rng(1);
 eta = randn(1,500);
 ee = randn(1,500);
 
@@ -33,16 +34,17 @@ for i = 201 : 500
     XT(4,i) = XT(4,i) + 1.22;
 end
 
-%% Perform PCA to get projection matrix
+%% Perform PCA 
 
 [EigVec,~,Lat] = pca(X');
 XT_d = EigVec(:,1:2)'*XT;
 figure;
-plot(XT_d(1,1:200),XT_d(2,1:200),'o');
+plot(XT_d(1,1:200),XT_d(2,1:200),'o');title('PCA')
 hold on
 plot(XT_d(1,201:end),XT_d(2,201:end),'ro');
 
 B = EigVec(:,1:2);
+
 
 
 
@@ -59,6 +61,7 @@ for i = 1 : MaxIter
     [UU,ss,VV] = svd(X*G');
     BB = UU(:,1:2)*VV';
     if norm(BB-B)<0.001
+        i
         break;
     else
         B = BB;
@@ -67,7 +70,7 @@ end
 
 XT_dnom = sim(net,XT);
 figure;
-plot(XT_dnom(1,1:200),XT_dnom(2,1:200),'o');
+plot(XT_dnom(1,1:200),XT_dnom(2,1:200),'o');title('DNOM');
 hold on
 plot(XT_dnom(1,201:end),XT_dnom(2,201:end),'ro');
 
@@ -83,6 +86,6 @@ Ktest = constructKernel(XT',X',options);
 Y = Ktest*eigvector;
 Y = Y';
 figure
-plot(Y(1,1:200),Y(2,1:200),'o');
+plot(Y(1,1:200),Y(2,1:200),'o');title('KPCA');
 hold on
 plot(Y(1,201:end),Y(2,201:end),'ro');
